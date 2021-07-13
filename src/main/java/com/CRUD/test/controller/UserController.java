@@ -1,0 +1,30 @@
+package com.CRUD.test.controller;
+
+import com.CRUD.test.Service.UserService;
+import com.CRUD.test.dto.UserSaveRequestDto;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api")
+public class UserController {
+    private final UserService userService;
+
+    @PostMapping("/save")
+    public String save(@RequestBody UserSaveRequestDto user){
+        userService.save(user);
+        return "Success";
+    }
+
+    @GetMapping("/read")
+    public String findByUserId(@RequestParam Long idx){
+
+        return "조회 결과"+userService.findById(idx);
+    }
+    @GetMapping("/readd")
+    public String findByUserIdd(@RequestParam Long idx){
+        return idx + " ㅎㅇ";
+    }
+}
