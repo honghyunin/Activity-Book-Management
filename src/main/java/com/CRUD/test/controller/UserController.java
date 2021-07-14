@@ -2,6 +2,7 @@ package com.CRUD.test.controller;
 
 import com.CRUD.test.Service.UserService;
 import com.CRUD.test.dto.UserSaveRequestDto;
+import com.CRUD.test.dto.UserUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +24,15 @@ public class UserController {
 
         return "조회 결과"+userService.findById(idx);
     }
-    @GetMapping("/readd")
-    public String findByUserIdd(@RequestParam Long idx){
-        return idx + " ㅎㅇ";
+
+    @PutMapping("/update")
+    public String update(@RequestBody UserUpdateRequestDto requestDto) {
+        return "업데이트 결과";
+    }
+
+    @DeleteMapping("/delete")
+    public String delete(@RequestParam Long idx){
+        userService.delete(idx);
+        return "delete";
     }
 }

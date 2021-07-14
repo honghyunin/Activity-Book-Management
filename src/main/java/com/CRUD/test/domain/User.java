@@ -23,4 +23,8 @@ public class User {
         this.id = id;
         this.pw = pw;
     }
+    public void update(String id, String pw){
+        this.id = id;
+        this.pw = pw;
+    }
 }
