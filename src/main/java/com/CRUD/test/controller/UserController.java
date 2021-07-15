@@ -1,8 +1,12 @@
 package com.CRUD.test.controller;
 
 import com.CRUD.test.Service.UserService;
+import com.CRUD.test.dto.UserResponseDto;
 import com.CRUD.test.dto.UserSaveRequestDto;
 import com.CRUD.test.dto.UserUpdateRequestDto;
+import com.CRUD.test.respose.CommonResult;
+import com.CRUD.test.respose.ResponseService;
+import com.CRUD.test.respose.SingleResult;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
@@ -12,27 +16,25 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class UserController {
     private final UserService userService;
+    private final ResponseService responseService;
 
     @PostMapping("/save")
-    public String save(@RequestBody UserSaveRequestDto user){
-        userService.save(user);
-        return "Success";
+    public SingleResult<Long> save(@RequestBody UserSaveRequestDto user){
+        return responseService.getSingleResult(userService.save(user));
     }
 
     @GetMapping("/read")
-    public String findByUserId(@RequestParam Long idx){
-
-        return "조회 결과"+userService.findById(idx);
+    public SingleResult<UserResponseDto> findByUserId(@RequestParam Long idx){
+        return responseService.getSingleResult(userService.findById(idx));
     }
 
     @PutMapping("/update")
-    public String update(@RequestBody UserUpdateRequestDto requestDto) {
-        return "업데이트 결과";
+    public SingleResult<Long> update(@RequestBody UserUpdateRequestDto requestDto) {
+        return responseService.getSingleResult(userService.update(requestDto));
     }
 
     @DeleteMapping("/delete")
-    public String delete(@RequestParam Long idx){
-        userService.delete(idx);
-        return "delete";
+    public CommonResult delete(@RequestParam Long idx){
+        return responseService.getSingleResult(userService.delete(idx));
     }
 }
