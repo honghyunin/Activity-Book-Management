@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-public class UserController {
+public class UserController { // (2) HTTP Request에서 들어온 요청을 받아와 그에 맞는 서비스 로직을 실행시켜주는 구간
     private final UserService userService;
     private final ResponseService responseService;
 

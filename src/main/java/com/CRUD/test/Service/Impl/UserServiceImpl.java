@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Long save(UserSaveRequestDto user) {
-        if(userRepository.findById(user.getId()) != null){
+        if(userRepository.findById(user.getId()) != null){ // idx는 Auto increment이므로 Dto에 담기지 않았기에 대신 id를 조건으로 걸었음
             throw new UserAlreadyExistsException();
         }
         return userRepository.save(user.toEntity()).getIdx();
@@ -39,15 +39,15 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public Long update(UserUpdateRequestDto requestDto) {
-        Long idx = requestDto.getIdx();
-        User user = userRepository.findById(idx).orElseThrow(UserNotFoundException :: new);
+        Long idx = requestDto.getIdx(); // idx 지정
+        User user = userRepository.findById(idx).orElseThrow(UserNotFoundException :: new);  // localDB에 존재하는 idx의 값을 찾고 그 값이 없을 경우의 예외를 처리함
         user.update(requestDto.getId(), requestDto.getPw());
         return idx;
     }
 
     @Override
     public String delete(Long idx) {
-        userRepository.deleteById(idx);
+        userRepository.deleteById(idx); // 내 localDB에 존재하는 idx의 열을 삭제함
         return  idx +"is Delete" ;
     }
 

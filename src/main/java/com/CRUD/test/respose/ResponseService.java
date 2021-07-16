@@ -3,8 +3,8 @@ package com.CRUD.test.respose;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
+@Service // 내부 로직을 처리해줌
+@RequiredArgsConstructor // 초기화되지 않은 fianl 필드나 notnull 필드의 생성자를 생성함
 public class ResponseService {
     public enum CommonResponse{
         SUCCESS(0, "성공하셨습니다."),
