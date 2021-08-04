@@ -15,6 +15,15 @@ spring:
   h2:
     console:
       enabled: true
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: hyunin0102@gmail.com
+    password: dlfamdla12@
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
 logging.level:
   org.hibernate.SQL: debug
