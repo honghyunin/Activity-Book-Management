@@ -22,9 +22,6 @@ public class User implements UserDetails {
     @Id @GeneratedValue
     private Long idx;
 
-    @Column(name = "USER_NAME")
-    private String username;
-
     @Column(name = "USER_ID")
     private String id;
 
@@ -51,6 +48,11 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
         return null;
     }
 

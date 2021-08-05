@@ -1,6 +1,7 @@
 package com.CRUD.test.security;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,9 +12,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@RequiredArgsConstructor
 @EnableWebSecurity(debug = true)
 @Configuration
 public class SpringSecurity extends WebSecurityConfigurerAdapter {
+    private final JwtTokenProdvider jwtTokenProdvider;
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
                 .csrf().disable()
@@ -22,7 +25,9 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/**").permitAll();
+                .antMatchers("/api/**").permitAll()
+                .and()
+                .apply(new JwtTokenFilterConfiguer(jwtTokenProdvider));
     }
 
     public void configure(WebSecurity web) throws Exception{

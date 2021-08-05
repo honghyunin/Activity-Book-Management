@@ -2,17 +2,21 @@ package com.CRUD.test.controller;
 
 import com.CRUD.test.Service.EmailSenderService;
 import com.CRUD.test.Service.UserService;
+import com.CRUD.test.dto.UserLoginDto;
 import com.CRUD.test.dto.UserResponseDto;
 import com.CRUD.test.dto.UserSaveRequestDto;
 import com.CRUD.test.dto.UserUpdateRequestDto;
 import com.CRUD.test.respose.CommonResult;
 import com.CRUD.test.respose.ResponseService;
 import com.CRUD.test.respose.SingleResult;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,7 +30,11 @@ public class UserController { // (2) HTTP Request에서 들어온 요청을 받�
     public SingleResult<SimpleMailMessage> execMail(@RequestBody UserSaveRequestDto userSaveRequestDto ){
         return responseService.getSingleResult(emailSenderService.sendEmail(userSaveRequestDto));
     }
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping("/login") @ApiOperation(value="로그인")
+    public SingleResult<Map<String, String>> login(@RequestBody UserLoginDto user){
+        return responseService.getSingleResult(userService.login(user));
+    }
+
     @PostMapping("/save") @ApiOperation(value="저장", notes = "저장")
     public SingleResult<Long> save(@RequestBody UserSaveRequestDto user){
         return responseService.getSingleResult(userService.save(user));
