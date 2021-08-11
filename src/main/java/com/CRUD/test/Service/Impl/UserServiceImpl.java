@@ -1,9 +1,10 @@
 package com.CRUD.test.Service.Impl;
 
+import com.CRUD.test.Service.EmailSenderService;
 import com.CRUD.test.Service.UserService;
 import com.CRUD.test.advice.exception.UserAlreadyExistsException;
 import com.CRUD.test.advice.exception.UserNotFoundException;
-import com.CRUD.test.advice.exception.UserNotmatchPassword;
+import com.CRUD.test.advice.exception.UserNotmatch;
 import com.CRUD.test.domain.User;
 import com.CRUD.test.dto.UserLoginDto;
 import com.CRUD.test.dto.UserResponseDto;
@@ -30,12 +31,14 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProdvider jwtTokenProdvider;
     private final RedisUtil redisUtil;
+    private final EmailSenderService emailSenderService;
 
     @Override
     public Long save(UserSaveRequestDto user) {
         if(userRepository.findById(user.getId()) != null){ // idx는 Auto increment이므로 Dto에 담기지 않았기에 대신 id를 조건으로 걸었음
             throw new UserAlreadyExistsException();
         }
+        emailSenderService.sendEmail(user);
         user.setPw(passwordEncoder.encode(user.getPw()));
         return userRepository.save(user.toEntity()).getIdx();
     }
@@ -48,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
         if(!passwordEncoder.matches(user.getPw(), findUser.getPw()))
         {
-            throw new UserNotmatchPassword("일치하지 않는 비밀번호입니다");}
+            throw new UserNotmatch("일치하지 않는 비밀번호입니다");}
 
         String AccessToken = jwtTokenProdvider.createToken(user.getId(), user.toEntity().getRoles());
         String RefreshToken = jwtTokenProdvider.createRefreshToken();

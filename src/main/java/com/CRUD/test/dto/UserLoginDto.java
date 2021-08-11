@@ -3,7 +3,6 @@ package com.CRUD.test.dto;
 
 import com.CRUD.test.domain.Role;
 import com.CRUD.test.domain.User;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

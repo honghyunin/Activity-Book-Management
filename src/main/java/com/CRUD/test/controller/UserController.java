@@ -2,10 +2,7 @@ package com.CRUD.test.controller;
 
 import com.CRUD.test.Service.EmailSenderService;
 import com.CRUD.test.Service.UserService;
-import com.CRUD.test.dto.UserLoginDto;
-import com.CRUD.test.dto.UserResponseDto;
-import com.CRUD.test.dto.UserSaveRequestDto;
-import com.CRUD.test.dto.UserUpdateRequestDto;
+import com.CRUD.test.dto.*;
 import com.CRUD.test.respose.CommonResult;
 import com.CRUD.test.respose.ResponseService;
 import com.CRUD.test.respose.SingleResult;
@@ -26,9 +23,9 @@ public class UserController { // (2) HTTP Request에서 들어온 요청을 받�
     private final ResponseService responseService;
     private final EmailSenderService emailSenderService;
 
-    @PostMapping("/vertifyCode") @ApiOperation(value="이메일 인증", notes = "이메일 인증")
-    public SingleResult<SimpleMailMessage> execMail(@RequestBody UserSaveRequestDto userSaveRequestDto ){
-        return responseService.getSingleResult(emailSenderService.sendEmail(userSaveRequestDto));
+    @PostMapping("/vertifyCode/") @ApiOperation(value="이메일 인증", notes = "이메일 인증")
+    public SingleResult<Integer> execMail(@RequestBody EmailAuth emailAuth ){
+        return responseService.getSingleResult(emailSenderService.Emailcertification(emailAuth));
     }
     @PostMapping("/login") @ApiOperation(value="로그인")
     public SingleResult<Map<String, String>> login(@RequestBody UserLoginDto user){

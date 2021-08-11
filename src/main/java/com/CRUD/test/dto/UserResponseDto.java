@@ -3,8 +3,6 @@ package com.CRUD.test.dto;
 import com.CRUD.test.domain.User;
 import lombok.Getter;
 
-import java.util.Optional;
-
 @Getter
 public class UserResponseDto {
     private Long idx;
