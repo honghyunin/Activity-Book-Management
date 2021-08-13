@@ -32,9 +32,9 @@ public class UserController { // (2) HTTP Request에서 들어온 요청을 받�
         return responseService.getSingleResult(userService.login(user));
     }
 
-    @PostMapping("/save") @ApiOperation(value="저장", notes = "저장")
+    @PostMapping("/signup") @ApiOperation(value="저장", notes = "저장")
     public SingleResult<Long> save(@RequestBody UserSaveRequestDto user){
-        return responseService.getSingleResult(userService.save(user));
+        return responseService.getSingleResult(userService.signup(user));
     }
 
     @GetMapping("/read") @ApiOperation(value="조회")

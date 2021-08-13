@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -33,13 +34,14 @@ public class UserServiceImpl implements UserService {
     private final RedisUtil redisUtil;
     private final EmailSenderService emailSenderService;
 
+    @Transactional
     @Override
-    public Long save(UserSaveRequestDto user) {
+    public Long signup(UserSaveRequestDto user) {
         if(userRepository.findById(user.getId()) != null){ // idx는 Auto increment이므로 Dto에 담기지 않았기에 대신 id를 조건으로 걸었음
             throw new UserAlreadyExistsException();
         }
         emailSenderService.sendEmail(user);
-        user.setPw(passwordEncoder.encode(user.getPw()));
+
         return userRepository.save(user.toEntity()).getIdx();
     }
 
