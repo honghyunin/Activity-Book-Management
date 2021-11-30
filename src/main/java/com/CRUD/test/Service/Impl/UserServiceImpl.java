@@ -14,15 +14,12 @@ import com.CRUD.test.repository.UserRepository;
 import com.CRUD.test.security.JwtTokenProdvider;
 import com.CRUD.test.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -33,16 +30,17 @@ public class UserServiceImpl implements UserService {
     private final JwtTokenProdvider jwtTokenProdvider;
     private final RedisUtil redisUtil;
     private final EmailSenderService emailSenderService;
-
     @Transactional
     @Override
     public Long signup(UserSaveRequestDto user) {
-        if(userRepository.findById(user.getId()) != null){ // idx는 Auto increment이므로 Dto에 담기지 않았기에 대신 id를 조건으로 걸었음
+        if(userRepository.findById(user.getId()) != null){ // 요청으로 받아온 user의 id가 DB상에서 존재하는 지 검사
             throw new UserAlreadyExistsException();
         }
-        emailSenderService.sendEmail(user);
+        emailSenderService.sendEmail(user); // 회원가입을 했을 경우 이메일 인증을 통해 인증된 유저로써 서비스를 이용할 수 있음
 
-        return userRepository.save(user.toEntity()).getIdx();
+        user.setPw(passwordEncoder.encode(user.getPw())); // password 암호화
+
+        return userRepository.save(user.toEntity()).getIdx(); // 우선적으로 DB에 저장함
     }
 
     public Map<String, String> login(UserLoginDto user){
