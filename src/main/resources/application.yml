@@ -7,6 +7,9 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
+  devtools:
+    livereload:
+      enabled: true
   jpa:
     hibernate:
       ddl-auto: create
