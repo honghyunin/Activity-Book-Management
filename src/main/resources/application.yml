@@ -30,8 +30,3 @@ spring:
         smtp:
           starttls:
             enable: true
-  thymeleaf:
-    cache: false
-    prefix: file:src/main/resources/templates/
-logging.level:
-  org.hibernate.SQL: debug
