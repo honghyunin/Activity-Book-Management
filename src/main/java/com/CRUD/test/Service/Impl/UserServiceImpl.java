@@ -2,16 +2,13 @@ package com.CRUD.test.Service.Impl;
 
 import com.CRUD.test.Service.EmailSenderService;
 import com.CRUD.test.Service.UserService;
-import com.CRUD.test.advice.exception.UserAlreadyExistsException;
 import com.CRUD.test.advice.exception.UserNotFoundException;
 import com.CRUD.test.advice.exception.UserNotmatch;
 import com.CRUD.test.domain.User;
-import com.CRUD.test.dto.UserLoginDto;
-import com.CRUD.test.dto.UserResponseDto;
-import com.CRUD.test.dto.UserSaveRequestDto;
-import com.CRUD.test.dto.UserUpdateRequestDto;
+import com.CRUD.test.dto.*;
 import com.CRUD.test.repository.UserRepository;
 import com.CRUD.test.security.JwtTokenProdvider;
+import com.CRUD.test.util.CurrentUserUtil;
 import com.CRUD.test.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,12 +27,14 @@ public class UserServiceImpl implements UserService {
     private final JwtTokenProdvider jwtTokenProdvider;
     private final RedisUtil redisUtil;
     private final EmailSenderService emailSenderService;
+    private final CurrentUserUtil currentUserUtil;
+
     @Transactional
-    @Override
     public Long signup(UserSaveRequestDto user) {
-        if(userRepository.findById(user.getId()) != null){ // 요청으로 받아온 user의 id가 DB상에서 존재하는 지 검사
-            throw new UserAlreadyExistsException();
+        if(userRepository.findById(user.getId()).isPresent()){
+            throw new IllegalArgumentException("유저를 찾을 수 없습니다");
         }
+
         emailSenderService.sendEmail(user); // 회원가입을 했을 경우 이메일 인증을 통해 인증된 유저로써 서비스를 이용할 수 있음
 
         user.setPw(passwordEncoder.encode(user.getPw())); // password 암호화
@@ -45,28 +44,28 @@ public class UserServiceImpl implements UserService {
 
     public Map<String, String> login(UserLoginDto user){
 
-        User findUser = userRepository.findById(user.getId());
-
-        if(findUser == null){throw new UserNotFoundException("유저를 찾을 수 없습니다");}
+        User findUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다"));
 
         if(!passwordEncoder.matches(user.getPw(), findUser.getPw()))
         {
-            throw new UserNotmatch("일치하지 않는 비밀번호입니다");}
+            throw new UserNotmatch("일치하지 않는 비밀번호입니다");
+        }
 
-        String AccessToken = jwtTokenProdvider.createToken(user.getId(), user.toEntity().getRoles());
+        String AccessToken = jwtTokenProdvider.createToken(user.getId(), user.toEntity().getRoles()); //, user.toEntity().getRoles()
         String RefreshToken = jwtTokenProdvider.createRefreshToken();
 
-        redisUtil.deleteData(user.getId()); // redis에 값을 삽입하기 전 해당 아이디의 refreshToken 삭제
-        redisUtil.setDataExpire(findUser.getId(), RefreshToken, JwtTokenProdvider.REFRESH_TOKEN_VAILD_TIME);
+        redisUtil.deleteData(user.getId()); // redis에 값을 삽입하기 전 해당 아이디 삭제
+        redisUtil.setDataExpire(user.getId(), RefreshToken, JwtTokenProdvider.REFRESH_TOKEN_VAILD_TIME);
 
         Map<String, String> map = new HashMap<>();
-        map.put("email", user.getId());
-        map.put("AccessToken", "Bearer"+AccessToken);
-        map.put("RefreshToken", "Bearer" +RefreshToken);
+        map.put("ID", user.getId());
+        map.put("AccessToken", "Bearer "+AccessToken);
+        map.put("RefreshToken", "Bearer " +RefreshToken);
 
         return map;
     }
-    @Override
+
     public UserResponseDto findById(Long idx) {
             User user = userRepository.findById(idx)
                     .orElseThrow(UserNotFoundException::new);
@@ -74,7 +73,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    @Override
     public Long update(UserUpdateRequestDto requestDto) {
         Long idx = requestDto.getIdx(); // idx 지정
         User user = userRepository.findById(idx).orElseThrow(UserNotFoundException :: new);  // localDB에 존재하는 idx의 값을 찾고 그 값이 없을 경우의 예외를 처리함
