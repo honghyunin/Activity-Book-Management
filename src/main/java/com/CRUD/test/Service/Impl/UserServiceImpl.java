@@ -82,7 +82,10 @@ public class UserServiceImpl implements UserService {
         return idx;
     }
 
-    @Override
+    public void logout(){
+        redisUtil.deleteData(currentUserUtil.getCurrentUser().getId());
+    }
+
     public String delete(Long idx) {
         userRepository.deleteById(idx); // 내 localDB에 존재하는 idx의 열을 삭제함
         return  idx +"is Delete" ;
