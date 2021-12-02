@@ -1,7 +1,7 @@
 package com.CRUD.test.controller;
 
 import com.CRUD.test.Service.EmailSenderService;
-import com.CRUD.test.Service.UserService;
+import com.CRUD.test.Service.Impl.UserService;
 import com.CRUD.test.dto.*;
 import com.CRUD.test.respose.CommonResult;
 import com.CRUD.test.respose.ResponseService;
@@ -47,7 +47,13 @@ public class UserController { // (2) HTTP Request에서 들어온 요청을 받�
         return responseService.getSingleResult(userService.update(requestDto));
     }
 
-    @DeleteMapping("/delete") @ApiOperation(value="삭제")
+    @DeleteMapping("/logout")
+    public CommonResult logout(){
+        userService.logout();
+        return responseService.getSuccessResult();
+    }
+
+    @DeleteMapping("/delete") @ApiOperation(value="회원탈퇴")
     public CommonResult delete(@RequestParam Long idx){
         return responseService.getSingleResult(userService.delete(idx));
     }
