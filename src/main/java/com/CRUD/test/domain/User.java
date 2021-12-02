@@ -48,12 +48,12 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return this.pw;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return this.id;
     }
 
     @Override
