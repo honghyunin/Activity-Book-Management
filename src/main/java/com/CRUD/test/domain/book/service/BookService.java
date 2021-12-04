@@ -28,4 +28,12 @@ public class BookService {
         books.update(book.getTitle(), book.getCategory(), book.getAuthor());
         return "책 정보 수정이 완료되었습니다";
     }
+
+    public Long deleteBook(BookRequestDto.Delete bookreq){
+        Long idx = bookreq.getIdx();
+        Book book = bookRepository.findById(idx)
+                .orElseThrow(IllegalArgumentException::new);
+        bookRepository.delete(book);
+        return idx;
+    }
 }
