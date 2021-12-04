@@ -8,6 +8,7 @@ public class BookRequestDto {
 
     @Getter @Setter
     public static class Add {
+        private Long idx;
         private String title;
         private String Author;
         private String category;
