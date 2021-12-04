@@ -22,4 +22,14 @@ public class BookController {
     public SingleResult<Long> addBook(@RequestBody BookRequestDto.Add book) {
         return responseService.getSingleResult(bookService.addBook(book));
     }
+
+    @PutMapping("/update")
+    public CommonResult updateBook(@RequestBody BookRequestDto.Add book){
+        return responseService.getSingleResult(bookService.updateBook(book));
+    }
+
+    @DeleteMapping("/delete")
+    public SingleResult<Long> deleteBook(@RequestBody BookRequestDto.Delete book) {
+        return responseService.getSingleResult(bookService.deleteBook(book));
+    }
 }
