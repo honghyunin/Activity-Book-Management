@@ -44,4 +44,10 @@ public class BookService {
         if(book1.isEmpty()) throw new RuntimeException("책을 찾을 수 없습니다");
         return book1;
     }
+
+    public List<Book> findBookByTitle(BookRequestDto.findBy book){
+        List<Book> books = bookRepository.findByTitle(book.getFindBook());
+        if(books.isEmpty()) throw new RuntimeException("책을 찾을 수 없습니다");
+        return books;
+    }
 }
