@@ -37,4 +37,14 @@ public class BookController {
     public SingleResult<List<Book>> selectBook(@RequestBody BookRequestDto.findBy book){
         return responseService.getSingleResult(bookService.findBook(book));
     }
+
+    @PostMapping("/title")
+    public SingleResult<List<Book>> selectBookByTitle(@RequestBody BookRequestDto.findBy book){
+        return responseService.getSingleResult(bookService.findBookByTitle(book));
+    }
+
+    @GetMapping("/find")
+    public SingleResult<List<Book>> selectBookAll(){
+        return responseService.getSingleResult(bookService.findAll());
+    }
 }
