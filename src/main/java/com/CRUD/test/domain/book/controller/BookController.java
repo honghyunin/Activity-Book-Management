@@ -1,15 +1,16 @@
 package com.CRUD.test.domain.book.controller;
+import com.CRUD.test.domain.book.Book;
 import com.CRUD.test.domain.book.dto.BookRequestDto;
 import com.CRUD.test.domain.book.service.BookService;
+import com.CRUD.test.global.response.CommonResult;
 import com.CRUD.test.global.response.ResponseService;
 import com.CRUD.test.global.response.SingleResult;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api")
+import java.util.List;
+
+@RequestMapping("/api/book")
 @RequiredArgsConstructor
 @RestController
 public class BookController {
