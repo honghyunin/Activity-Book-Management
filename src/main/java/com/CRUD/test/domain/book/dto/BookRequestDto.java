@@ -22,17 +22,9 @@ public class BookRequestDto {
                     .build();
         }
     }
-
+    @Getter @Setter
     public static class Delete {
-
-    }
-
-    public static class Renew {
-
-    }
-
-    public static class Overdue {
-
+        private Long idx;
     }
 
     public static class LookFor {
