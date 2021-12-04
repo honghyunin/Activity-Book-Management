@@ -30,4 +30,12 @@ public class Book {
 
     @Column(name = "RENTAL_ABLE_BOOK", columnDefinition = "boolean default true")
     private Boolean rentalAbleBook = true;
+
+
+
+    public void update(String title, String category, String author){
+        this.title = title;
+        this.category = category;
+        this.author = author;
+    }
 }
