@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class BookService {
@@ -35,5 +37,11 @@ public class BookService {
                 .orElseThrow(IllegalArgumentException::new);
         bookRepository.delete(book);
         return idx;
+    }
+
+    public List<Book> findBook(BookRequestDto.findBy book){
+        List<Book> book1 = bookRepository.findByCategory(book.getFindBook());
+        if(book1.isEmpty()) throw new RuntimeException("책을 찾을 수 없습니다");
+        return book1;
     }
 }
