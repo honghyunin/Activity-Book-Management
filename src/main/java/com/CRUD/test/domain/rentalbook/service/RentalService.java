@@ -9,6 +9,8 @@ import com.CRUD.test.global.util.CurrentUserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class RentalService {
@@ -33,5 +35,9 @@ public class RentalService {
         if(!book.getRentalAbleBook()){
             throw new RuntimeException("이미 대여된 책입니다");
         }
+    }
+
+    public List<Book> selectRentalAbleBook(){
+        return bookRepository.findByRentalAbleBook(true);
     }
 }
