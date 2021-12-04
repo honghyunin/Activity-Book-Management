@@ -32,4 +32,9 @@ public class BookController {
     public SingleResult<Long> deleteBook(@RequestBody BookRequestDto.Delete book) {
         return responseService.getSingleResult(bookService.deleteBook(book));
     }
+
+    @PostMapping("/category")
+    public SingleResult<List<Book>> selectBook(@RequestBody BookRequestDto.findBy book){
+        return responseService.getSingleResult(bookService.findBook(book));
+    }
 }
