@@ -50,4 +50,10 @@ public class BookService {
         if(books.isEmpty()) throw new RuntimeException("책을 찾을 수 없습니다");
         return books;
     }
+
+    public List<Book> findAll(){
+        List<Book> books = bookRepository.findAll();
+        if(books.isEmpty()) throw new RuntimeException();
+        return books;
+    }
 }
