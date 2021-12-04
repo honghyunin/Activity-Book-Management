@@ -27,8 +27,9 @@ public class BookRequestDto {
         private Long idx;
     }
 
-    public static class LookFor {
-
+    @Getter @Setter
+    public static class findBy {
+        private String findBook;
     }
 }
 
