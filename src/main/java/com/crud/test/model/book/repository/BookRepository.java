@@ -1,6 +1,6 @@
-package com.CRUD.test.domain.book.repository;
+package com.crud.test.model.book.repository;
 
-import com.CRUD.test.domain.book.Book;
+import com.crud.test.model.book.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
-    Book findByIdx(Long idx);
+    List<Book> findByIdx(Long id);
     List<Book> findByTitle(String title);
     List<Book> findByCategory(String category);
     List<Book> findByRentalAbleBook(Boolean rentalAbleBook);
