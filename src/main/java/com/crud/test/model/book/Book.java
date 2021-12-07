@@ -1,4 +1,4 @@
-package com.CRUD.test.domain.book;
+package com.crud.test.model.book;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,9 +29,11 @@ public class Book {
     private String author;
 
     @Column(name = "RENTAL_ABLE_BOOK", columnDefinition = "boolean default true")
-    private Boolean rentalAbleBook = true;
+    private Boolean rentalAbleBook;
 
-
+    public void setRentalAbleBook(Boolean ableBook){
+        this.rentalAbleBook = ableBook;
+    }
 
     public void update(String title, String category, String author){
         this.title = title;
