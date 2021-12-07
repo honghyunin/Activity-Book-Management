@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Entity
 public class User implements UserDetails {
     @Column(name = "USER_IDX")
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
     @Column(name = "USER_ID")
@@ -27,6 +27,15 @@ public class User implements UserDetails {
 
     @Column(name = "USER_PASSWORD")
     private String pw;
+
+    @Column(name = "USER_NAME")
+    private String name;
+
+    @Column(name = "USER_NUMBER")
+    private String userNumber;
+
+    @Column(name = "RENTAL_ABLE_USER", columnDefinition = "boolean default true")
+    private boolean rentalAbleUser;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
