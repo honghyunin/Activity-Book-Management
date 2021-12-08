@@ -1,4 +1,4 @@
-package com.CRUD.test.domain;
+package com.crud.test.model.user;
 
 
 import lombok.*;

@@ -1,6 +1,7 @@
 package com.crud.test.model.user.service.Impl;
 
 import com.crud.test.model.book.Book;
+import com.crud.test.model.rental.Rental;
 import com.crud.test.model.rental.repository.RentalCustomRepository;
 import com.crud.test.model.rental.repository.RentalRepository;
 import com.crud.test.model.user.service.UserService;
@@ -12,14 +13,22 @@ import com.crud.test.model.user.repository.UserRepository;
 import com.crud.test.global.security.JwtTokenProdvider;
 import com.crud.test.global.util.CurrentUserUtil;
 import com.crud.test.global.util.RedisUtil;
+import com.querydsl.core.Tuple;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+
+import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @RequiredArgsConstructor
 @Service
@@ -101,6 +110,8 @@ public class UserServiceImpl implements UserService {
 
     public List<Book> userRentalBook(){
         User user = currentUserUtil.getCurrentUser();
-        return rentalCustomRepository.findUserRental(user);
+        List<Book> rental = rentalCustomRepository.findUserRental(user);
+
+        return rental;
     }
 }

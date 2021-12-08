@@ -1,6 +1,6 @@
-package com.CRUD.test.Service;
+package com.crud.test.model.user.service;
 
-import com.CRUD.test.dto.*;
+import com.crud.test.model.user.dto.*;
 
 import java.util.Map;
 
