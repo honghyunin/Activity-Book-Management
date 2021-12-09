@@ -42,6 +42,9 @@ public class User implements UserDetails {
     @Column(name="ROLE")
     private List<Role> roles = new ArrayList<>();
 
+    public void setRentalAbleUser(Boolean ableUser){
+        this.rentalAbleUser = ableUser;
+    }
 
     public void update(String id, String pw){
         this.id = id;
