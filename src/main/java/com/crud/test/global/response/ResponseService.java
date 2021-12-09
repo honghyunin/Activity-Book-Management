@@ -1,4 +1,4 @@
-package com.CRUD.test.respose;
+package com.crud.test.global.response;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
