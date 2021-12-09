@@ -30,3 +30,6 @@ spring:
         smtp:
           starttls:
             enable: true
+
+server:
+  port: 8081
